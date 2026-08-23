@@ -1,129 +1,374 @@
-const startBtn = document.getElementById("startBtn");
-const story = document.getElementById("story");
-const finalSection = document.getElementById("final");
+let currentPage = 1;
 
-const cards = document.querySelectorAll(".card");
-const nextBtn = document.getElementById("nextBtn");
-const prevBtn = document.getElementById("prevBtn");
-const progressBar = document.getElementById("progressBar");
-const replayBtn = document.getElementById("replayBtn");
+const totalPages = 5;
 
-let currentCard = 0;
 
-/* Start */
+// ============================
+// PAGE SYSTEM
+// ============================
 
-startBtn.addEventListener("click", () => {
-  document.querySelector(".hero").style.display = "none";
-  story.style.display = "block";
+function nextPage() {
 
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+  if (currentPage >= totalPages) return;
 
-  showCard(0);
-});
+  const oldPage =
+    document.getElementById(`page${currentPage}`);
 
-/* Show card */
+  const newPage =
+    document.getElementById(`page${currentPage + 1}`);
 
-function showCard(index) {
+  oldPage.classList.remove("active");
 
-  cards.forEach(card => {
-    card.classList.remove("active");
-  });
+  currentPage++;
 
-  cards[index].classList.add("active");
+  setTimeout(() => {
+    newPage.classList.add("active");
+  }, 250);
 
-  const progress = ((index + 1) / cards.length) * 100;
-  progressBar.style.width = progress + "%";
-
-  prevBtn.style.visibility =
-    index === 0 ? "hidden" : "visible";
-
-  if (index === cards.length - 1) {
-    nextBtn.textContent = "Finish ❤️";
-  } else {
-    nextBtn.textContent = "Next →";
+  if (currentPage === 3) {
+    startTyping();
   }
 
-  window.scrollTo({
-    top: story.offsetTop,
-    behavior: "smooth"
-  });
+  if (currentPage === 4) {
+    startLoading();
+  }
 }
 
-/* Next */
 
-nextBtn.addEventListener("click", () => {
+// ============================
+// TYPING EFFECT
+// ============================
 
-  if (currentCard < cards.length - 1) {
+const words = [
+  "It was you.",
+  "Then it became us.",
+  "And somehow...",
+  "I never want to lose that."
+];
 
-    currentCard++;
+let wordIndex = 0;
+let charIndex = 0;
+let deleting = false;
 
-    showCard(currentCard);
+function startTyping() {
+
+  wordIndex = 0;
+  charIndex = 0;
+  deleting = false;
+
+  typeWriter();
+}
+
+function typeWriter() {
+
+  const element =
+    document.getElementById("typingText");
+
+  if (!element) return;
+
+  const word = words[wordIndex];
+
+  if (!deleting) {
+
+    element.textContent =
+      word.substring(0, charIndex + 1);
+
+    charIndex++;
+
+    if (charIndex === word.length) {
+
+      deleting = true;
+
+      setTimeout(typeWriter, 1300);
+
+      return;
+    }
 
   } else {
 
-    story.style.display = "none";
-    finalSection.style.display = "grid";
+    element.textContent =
+      word.substring(0, charIndex - 1);
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
+    charIndex--;
 
+    if (charIndex === 0) {
+
+      deleting = false;
+
+      wordIndex++;
+
+      if (wordIndex >= words.length) {
+        wordIndex = 0;
+      }
+    }
   }
 
-});
+  setTimeout(
+    typeWriter,
+    deleting ? 45 : 85
+  );
+}
 
-/* Previous */
 
-prevBtn.addEventListener("click", () => {
+// ============================
+// MEMORY LOADING
+// ============================
 
-  if (currentCard > 0) {
+function startLoading() {
 
-    currentCard--;
+  const progress =
+    document.getElementById("progress");
 
-    showCard(currentCard);
+  const text =
+    document.getElementById("loadingText");
 
+  let value = 0;
+
+  const messages = [
+    "Collecting little moments...",
+    "Remembering the laughs...",
+    "Saving the memories...",
+    "Finding all the reasons...",
+    "Almost there...",
+    "Memory complete ♡"
+  ];
+
+  const interval =
+    setInterval(() => {
+
+      value++;
+
+      progress.style.width =
+        value + "%";
+
+      if (value < 20) {
+        text.textContent = messages[0];
+      }
+
+      else if (value < 40) {
+        text.textContent = messages[1];
+      }
+
+      else if (value < 60) {
+        text.textContent = messages[2];
+      }
+
+      else if (value < 80) {
+        text.textContent = messages[3];
+      }
+
+      else if (value < 100) {
+        text.textContent = messages[4];
+      }
+
+      else {
+
+        text.textContent =
+          messages[5];
+
+        clearInterval(interval);
+      }
+
+    }, 35);
+}
+
+
+// ============================
+// FINAL REVEAL
+// ============================
+
+function finalReveal() {
+
+  const current =
+    document.getElementById("page5");
+
+  const final =
+    document.getElementById("final");
+
+  current.classList.remove("active");
+
+  setTimeout(() => {
+
+    final.classList.add("active");
+
+    celebration();
+
+  }, 400);
+}
+
+
+// ============================
+// FLOATING WORDS
+// ============================
+
+const floatingWords = [
+  "love",
+  "always",
+  "you",
+  "us",
+  "♡",
+  "forever",
+  "memories",
+  "together",
+  "∞",
+  "my favorite",
+  "hehe",
+  "♡",
+  "always you"
+];
+
+function createFloating() {
+
+  const container =
+    document.getElementById("floating");
+
+  const item =
+    document.createElement("div");
+
+  item.className = "float";
+
+  item.textContent =
+    floatingWords[
+      Math.floor(
+        Math.random() *
+        floatingWords.length
+      )
+    ];
+
+  item.style.left =
+    Math.random() * 100 + "%";
+
+  item.style.fontSize =
+    (Math.random() * 14 + 11) + "px";
+
+  const duration =
+    Math.random() * 7 + 7;
+
+  item.style.animationDuration =
+    duration + "s";
+
+  container.appendChild(item);
+
+  setTimeout(() => {
+    item.remove();
+  }, duration * 1000);
+}
+
+setInterval(createFloating, 500);
+
+
+// ============================
+// FINAL CELEBRATION
+// ============================
+
+function celebration() {
+
+  for (let i = 0; i < 50; i++) {
+
+    setTimeout(() => {
+
+      const container =
+        document.getElementById("floating");
+
+      const item =
+        document.createElement("div");
+
+      item.className = "float";
+
+      item.textContent =
+        ["♥", "♡", "✦", "✧", "❤"]
+        [Math.floor(Math.random() * 5)];
+
+      item.style.left =
+        Math.random() * 100 + "%";
+
+      item.style.fontSize =
+        (Math.random() * 25 + 15) + "px";
+
+      item.style.color =
+        "rgba(255,130,165,.8)";
+
+      const duration =
+        Math.random() * 4 + 4;
+
+      item.style.animationDuration =
+        duration + "s";
+
+      container.appendChild(item);
+
+      setTimeout(() => {
+        item.remove();
+      }, duration * 1000);
+
+    }, i * 80);
   }
+}
 
-});
 
-/* Replay */
+// ============================
+// TAP ANYWHERE
+// ============================
 
-replayBtn.addEventListener("click", () => {
+document.addEventListener("click", (event) => {
 
-  currentCard = 0;
+  if (
+    event.target.tagName === "BUTTON"
+  ) return;
 
-  finalSection.style.display = "none";
-  story.style.display = "block";
+  const active =
+    document.querySelector(".page.active");
 
-  showCard(0);
+  if (!active) return;
 
-});
+  // Small floating heart at tap position
 
-/* Floating hearts */
+  const heart =
+    document.createElement("div");
 
-function createHeart() {
+  heart.textContent = "♡";
 
-  const heart = document.createElement("div");
+  heart.style.position = "fixed";
+  heart.style.left = event.clientX + "px";
+  heart.style.top = event.clientY + "px";
 
-  heart.className = "heart";
-  heart.innerHTML = Math.random() > 0.5 ? "♡" : "♥";
+  heart.style.pointerEvents = "none";
+  heart.style.zIndex = "100";
 
-  heart.style.left = Math.random() * 100 + "%";
-  heart.style.fontSize =
-    Math.random() * 15 + 12 + "px";
+  heart.style.color = "#ff80a6";
+  heart.style.fontSize = "25px";
 
-  heart.style.animationDuration =
-    Math.random() * 5 + 5 + "s";
+  heart.style.animation =
+    "tapHeart 1s ease forwards";
 
-  document.querySelector(".hearts").appendChild(heart);
+  document.body.appendChild(heart);
 
   setTimeout(() => {
     heart.remove();
-  }, 10000);
-}
+  }, 1000);
+});
 
-setInterval(createHeart, 700);
+
+// Add tap-heart animation dynamically
+
+const style =
+  document.createElement("style");
+
+style.textContent = `
+@keyframes tapHeart {
+
+  0% {
+    transform: translate(-50%, -50%) scale(.5);
+    opacity: 1;
+  }
+
+  100% {
+    transform:
+      translate(-50%, -100px)
+      scale(1.5);
+    opacity: 0;
+  }
+
+}
+`;
+
+document.head.appendChild(style);
