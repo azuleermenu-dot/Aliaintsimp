@@ -1,3 +1,18 @@
+const musicBtn = document.getElementById("musicBtn");
+const bgm = document.getElementById("bgm");
+
+bgm.volume = 0.5;
+
+musicBtn.addEventListener("click", () => {
+  if (bgm.paused) {
+    bgm.play();
+    musicBtn.textContent = "⏸ Pause Music";
+  } else {
+    bgm.pause();
+    musicBtn.textContent = "🎵 Play Music";
+  }
+});
+
 let currentPage = 1;
 
 const totalPages = 5;
