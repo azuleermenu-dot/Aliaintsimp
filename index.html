@@ -2,21 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
   <title>Happy Anniversary ♡</title>
+
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <!-- Background -->
+  <!-- Animated background -->
   <div class="background">
-    <div class="blob blob-one"></div>
-    <div class="blob blob-two"></div>
-    <div class="blob blob-three"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
   </div>
 
-  <!-- Floating texts -->
+  <!-- Floating elements -->
   <div id="floating"></div>
 
   <!-- Music -->
@@ -24,24 +26,25 @@
     <source src="music.mp3" type="audio/mpeg">
   </audio>
 
-  <button id="musicBtn" class="music-btn" onclick="toggleMusic()">
+  <!-- Music button -->
+  <button id="musicBtn" class="music-btn" type="button">
     ♫ Play Music
   </button>
 
 
   <!-- =========================
-       INTRO
+       PAGE 1
   ========================== -->
 
   <section class="page active" id="page1">
 
     <div class="content">
 
-      <div class="tiny">
+      <p class="eyebrow">
         I made something for you...
-      </div>
+      </p>
 
-      <div class="heart">
+      <div class="main-heart">
         ♡
       </div>
 
@@ -50,12 +53,12 @@
         <span>you.</span>
       </h1>
 
-      <p class="sub">
+      <p class="subtitle">
         Don't scroll yet.
       </p>
 
-      <button class="main-btn" onclick="nextPage()">
-        Tap here →
+      <button class="primary-btn next-btn">
+        Tap here <span>→</span>
       </button>
 
     </div>
@@ -64,7 +67,7 @@
 
 
   <!-- =========================
-       QUESTION 1
+       PAGE 2
   ========================== -->
 
   <section class="page" id="page2">
@@ -75,7 +78,7 @@
         01 / 04
       </div>
 
-      <p class="tiny">
+      <p class="eyebrow">
         Be honest...
       </p>
 
@@ -84,13 +87,13 @@
         how <span>we</span> started?
       </h2>
 
-      <div class="choices">
+      <div class="button-group">
 
-        <button onclick="nextPage()">
+        <button class="glass-btn next-btn">
           Of course ♡
         </button>
 
-        <button onclick="nextPage()">
+        <button class="glass-btn next-btn">
           I could never forget
         </button>
 
@@ -102,7 +105,7 @@
 
 
   <!-- =========================
-       TYPING MESSAGE
+       PAGE 3
   ========================== -->
 
   <section class="page" id="page3">
@@ -113,11 +116,11 @@
         02 / 04
       </div>
 
-      <p class="tiny">
+      <p class="eyebrow">
         And somehow...
       </p>
 
-      <div class="typing">
+      <div class="typing-wrapper">
         <span id="typingText"></span>
         <span class="cursor">|</span>
       </div>
@@ -128,7 +131,7 @@
         part of it.
       </p>
 
-      <button class="main-btn" onclick="nextPage()">
+      <button class="primary-btn next-btn">
         Keep going ♡
       </button>
 
@@ -138,7 +141,7 @@
 
 
   <!-- =========================
-       MEMORY
+       PAGE 4
   ========================== -->
 
   <section class="page" id="page4">
@@ -149,17 +152,17 @@
         03 / 04
       </div>
 
-      <div class="memory-box">
+      <div class="memory-card">
 
-        <div class="memory-icon">
+        <div class="memory-symbol">
           ✦
         </div>
 
-        <p class="tiny">
-          MEMORY LOADING...
+        <p class="eyebrow">
+          MEMORY LOADING
         </p>
 
-        <div class="loading">
+        <div class="progress-container">
           <div id="progress"></div>
         </div>
 
@@ -169,7 +172,7 @@
 
       </div>
 
-      <button class="main-btn" onclick="nextPage()">
+      <button class="primary-btn next-btn">
         Open it ♡
       </button>
 
@@ -179,7 +182,7 @@
 
 
   <!-- =========================
-       FINAL QUESTION
+       PAGE 5
   ========================== -->
 
   <section class="page" id="page5">
@@ -194,7 +197,7 @@
         ✦
       </div>
 
-      <p class="tiny">
+      <p class="eyebrow">
         One last thing...
       </p>
 
@@ -203,12 +206,12 @@
         choosing <span>us?</span>
       </h2>
 
-      <p class="sub">
+      <p class="subtitle">
         Today, tomorrow,<br>
         and all the little days in between.
       </p>
 
-      <button class="yes-btn" onclick="finalReveal()">
+      <button id="alwaysBtn" class="yes-btn">
         Always ♡
       </button>
 
@@ -218,7 +221,7 @@
 
 
   <!-- =========================
-       ANNIVERSARY FINAL
+       FINAL PAGE
   ========================== -->
 
   <section class="page final-page" id="final">
@@ -229,7 +232,7 @@
         ♥
       </div>
 
-      <p class="tiny">
+      <p class="eyebrow">
         HAPPY ANNIVERSARY
       </p>
 
@@ -238,11 +241,11 @@
         <span>Always.</span>
       </h1>
 
-      <div class="line"></div>
+      <div class="divider"></div>
 
       <p class="letter">
         Happy 1st anniversary,<br>
-        my love! ❤️ I’m so grateful for this<br>  
+        my love! ❤️ I’m so grateful for this<br>
         beautiful year we’ve shared together.<br>
         Thank you for all the memories, laughter,<br>
         and moments that made this year special,<br>
