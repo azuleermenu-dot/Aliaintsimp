@@ -3,201 +3,274 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>For You ♡</title>
+  <title>Happy Anniversary ♡</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- MUSIC -->
-<audio id="bgMusic" loop>
-  <source src="Music.mp3" type="audio/mpeg">
-</audio>
-
-<button id="musicBtn" class="music-btn" onclick="toggleMusic()">
-  ♫ Play Music
-</button>
-  
-  <div class="bg">
-    <div class="blob blob1"></div>
-    <div class="blob blob2"></div>
-    <div class="blob blob3"></div>
+  <!-- Background -->
+  <div class="background">
+    <div class="blob blob-one"></div>
+    <div class="blob blob-two"></div>
+    <div class="blob blob-three"></div>
   </div>
 
+  <!-- Floating texts -->
   <div id="floating"></div>
 
-    <!-- INTRO -->
-    <section class="page active" id="page1">
-      <div class="content">
-        <div class="tiny">I made something for you...</div>
+  <!-- Music -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
 
-        <div class="giant-heart">♡</div>
+  <button id="musicBtn" class="music-btn" onclick="toggleMusic()">
+    ♫ Play Music
+  </button>
 
-        <h1>
-          Hey,<br>
-          <span>you.</span>
-        </h1>
 
-        <p class="sub">Don't scroll yet.</p>
+  <!-- =========================
+       INTRO
+  ========================== -->
+
+  <section class="page active" id="page1">
+
+    <div class="content">
+
+      <div class="tiny">
+        I made something for you...
+      </div>
+
+      <div class="heart">
+        ♡
+      </div>
+
+      <h1>
+        Hey,<br>
+        <span>you.</span>
+      </h1>
+
+      <p class="sub">
+        Don't scroll yet.
+      </p>
+
+      <button class="main-btn" onclick="nextPage()">
+        Tap here →
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       QUESTION 1
+  ========================== -->
+
+  <section class="page" id="page2">
+
+    <div class="content">
+
+      <div class="counter">
+        01 / 04
+      </div>
+
+      <p class="tiny">
+        Be honest...
+      </p>
+
+      <h2>
+        Do you remember<br>
+        how <span>we</span> started?
+      </h2>
+
+      <div class="choices">
 
         <button onclick="nextPage()">
-          Tap here <span>→</span>
+          Of course ♡
         </button>
-      </div>
-    </section>
-
-
-    <!-- QUESTION -->
-    <section class="page" id="page2">
-      <div class="content">
-
-        <div class="counter">01 / 04</div>
-
-        <p class="tiny">Be honest...</p>
-
-        <h2>
-          Do you remember<br>
-          how <span>we</span> started?
-        </h2>
-
-        <div class="choices">
-          <button onclick="nextPage()">Of course ♡</button>
-          <button onclick="nextPage()">I could never forget</button>
-        </div>
-
-      </div>
-    </section>
-
-
-    <!-- FLOATING TEXT -->
-    <section class="page" id="page3">
-      <div class="content">
-
-        <div class="counter">02 / 04</div>
-
-        <p class="tiny">Some things just feel different...</p>
-
-        <div class="typing">
-          <span id="typingText"></span>
-          <span class="cursor">|</span>
-        </div>
-
-        <p class="quote">
-          "Some people come into your life<br>
-          and somehow become your favorite part of it."
-        </p>
 
         <button onclick="nextPage()">
-          Keep going ♡
+          I could never forget
         </button>
 
       </div>
-    </section>
+
+    </div>
+
+  </section>
 
 
-    <!-- MEMORY -->
-    <section class="page" id="page4">
-      <div class="content">
+  <!-- =========================
+       TYPING MESSAGE
+  ========================== -->
 
-        <div class="counter">03 / 04</div>
+  <section class="page" id="page3">
 
-        <div class="memory-box">
+    <div class="content">
 
-          <div class="memory-icon">✦</div>
+      <div class="counter">
+        02 / 04
+      </div>
 
-          <p class="tiny">MEMORY LOADING...</p>
+      <p class="tiny">
+        And somehow...
+      </p>
 
-          <div class="loading">
-            <div id="progress"></div>
-          </div>
+      <div class="typing">
+        <span id="typingText"></span>
+        <span class="cursor">|</span>
+      </div>
 
-          <p id="loadingText">Collecting little moments...</p>
+      <p class="quote">
+        Some people come into your life
+        and somehow become your favorite
+        part of it.
+      </p>
 
+      <button class="main-btn" onclick="nextPage()">
+        Keep going ♡
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       MEMORY
+  ========================== -->
+
+  <section class="page" id="page4">
+
+    <div class="content">
+
+      <div class="counter">
+        03 / 04
+      </div>
+
+      <div class="memory-box">
+
+        <div class="memory-icon">
+          ✦
         </div>
 
-        <button onclick="nextPage()">
-          Open it ♡
-        </button>
-
-      </div>
-    </section>
-
-
-    <!-- FINAL QUESTION -->
-    <section class="page" id="page5">
-      <div class="content">
-
-        <div class="counter">04 / 04</div>
-
-        <div class="sparkle">✦</div>
-
-        <p class="tiny">One last thing...</p>
-
-        <h2>
-          Will you keep<br>
-          choosing <span>us?</span>
-        </h2>
-
-        <p class="sub">
-          Today, tomorrow,<br>
-          and all the little days in between.
+        <p class="tiny">
+          MEMORY LOADING...
         </p>
 
-        <button class="yes" onclick="finalReveal()">
-          Always ♡
-        </button>
-
-      </div>
-    </section>
-
-
-    <!-- FINAL -->
-    <section class="page final-page" id="final">
-
-      <div class="content">
-
-        <div class="final-heart">♥</div>
-
-        <p class="tiny">HAPPY ANNIVERSARY</p>
-
-        <h1 class="final-title">
-          Us.<br>
-          <span>Always.</span>
-        </h1>
-
-        <div class="line"></div>
-
-        <p class="letter">
-          Happy 1st anniversary,<br>
-          my love! ❤️ I’m so grateful for this<br>
-          beautiful year we’ve shared together.<br>
-          Thank you for all the memories, laughter,<br>
-          and moments that made this year special,<br>
-          I’m really happy to have you in my life,<br>
-          and I hope we continue to grow and make<br>
-          more amazing memories together.<br>
-          Happy first anniversary, love! Here’s<br>
-          to many more years with you. ❤️
-        </p>
-
-        <p class="forever">
-          Here's to another chapter. ♡
-        </p>
-
-        <div class="signature">
-          made with love,<br>
-          <strong>Asnor D Ali</strong>
+        <div class="loading">
+          <div id="progress"></div>
         </div>
 
+        <p id="loadingText">
+          Collecting little moments...
+        </p>
+
       </div>
 
-    </section>
+      <button class="main-btn" onclick="nextPage()">
+        Open it ♡
+      </button>
 
-  </main>
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       FINAL QUESTION
+  ========================== -->
+
+  <section class="page" id="page5">
+
+    <div class="content">
+
+      <div class="counter">
+        04 / 04
+      </div>
+
+      <div class="sparkle">
+        ✦
+      </div>
+
+      <p class="tiny">
+        One last thing...
+      </p>
+
+      <h2>
+        Will you keep<br>
+        choosing <span>us?</span>
+      </h2>
+
+      <p class="sub">
+        Today, tomorrow,<br>
+        and all the little days in between.
+      </p>
+
+      <button class="yes-btn" onclick="finalReveal()">
+        Always ♡
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       ANNIVERSARY FINAL
+  ========================== -->
+
+  <section class="page final-page" id="final">
+
+    <div class="content">
+
+      <div class="final-heart">
+        ♥
+      </div>
+
+      <p class="tiny">
+        HAPPY ANNIVERSARY
+      </p>
+
+      <h1 class="final-title">
+        Us.<br>
+        <span>Always.</span>
+      </h1>
+
+      <div class="line"></div>
+
+      <p class="letter">
+        Happy 1st anniversary,<br>
+        my love! ❤️ I’m so grateful for this<br>  
+        beautiful year we’ve shared together.<br>
+        Thank you for all the memories, laughter,<br>
+        and moments that made this year special,<br>
+        I’m really happy to have you in my life,<br>
+        and I hope we continue to grow and make<br>
+        more amazing memories together.<br>
+        Happy first anniversary, love! Here’s<br>
+        to many more years with you. ❤️
+      </p>
+
+      <p class="forever">
+        Here's to another chapter. ♡
+      </p>
+
+      <div class="signature">
+        with love,<br>
+        <strong>me</strong>
+      </div>
+
+    </div>
+
+  </section>
+
 
   <div class="tap-hint">
-    tap anywhere
+    tap anywhere ♡
   </div>
+
 
   <script src="script.js"></script>
 
