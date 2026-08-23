@@ -1,6 +1,25 @@
+"use strict";
+
+
 // ========================================
-// ANNIVERSARY WEBSITE JAVASCRIPT
+// WAIT FOR PAGE
 // ========================================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  setupNavigation();
+
+  setupMusic();
+
+  setupTyping();
+
+  setupMemory();
+
+  setupFloating();
+
+  setupTapEffects();
+
+});
 
 
 // ========================================
@@ -9,135 +28,234 @@
 
 let currentPage = 1;
 
+let changingPage = false;
+
 const totalPages = 5;
 
+
+function setupNavigation() {
+
+  const buttons =
+    document.querySelectorAll(
+      ".next-btn"
+    );
+
+  buttons.forEach(button => {
+
+    button.addEventListener(
+      "click",
+      nextPage
+    );
+
+  });
+
+
+  const alwaysButton =
+    document.getElementById(
+      "alwaysBtn"
+    );
+
+  if (alwaysButton) {
+
+    alwaysButton.addEventListener(
+      "click",
+      finalReveal
+    );
+
+  }
+}
+
+
 function nextPage() {
+
+  if (changingPage) {
+    return;
+  }
 
   if (currentPage >= totalPages) {
     return;
   }
+
+  changingPage = true;
+
 
   const oldPage =
     document.getElementById(
       `page${currentPage}`
     );
 
+  const nextNumber =
+    currentPage + 1;
+
   const newPage =
     document.getElementById(
-      `page${currentPage + 1}`
+      `page${nextNumber}`
     );
 
-  oldPage.classList.remove("active");
 
-  currentPage++;
+  if (!oldPage || !newPage) {
+
+    changingPage = false;
+
+    return;
+  }
+
+
+  oldPage.classList.remove(
+    "active"
+  );
+
 
   setTimeout(() => {
-    newPage.classList.add("active");
-  }, 250);
+
+    newPage.classList.add(
+      "active"
+    );
+
+    currentPage =
+      nextNumber;
+
+    changingPage = false;
 
 
-  // Start typing when page 3 opens
-  if (currentPage === 3) {
-    startTyping();
-  }
+    if (currentPage === 3) {
+      startTyping();
+    }
 
 
-  // Start memory loading
-  if (currentPage === 4) {
-    startLoading();
-  }
+    if (currentPage === 4) {
+      startMemory();
+    }
+
+  }, 300);
 }
 
 
 // ========================================
-// TYPING ANIMATION
+// TYPING
 // ========================================
 
-const words = [
+const typingWords = [
   "It was you.",
   "Then it became us.",
   "And somehow...",
   "I never want to lose that."
 ];
 
-let wordIndex = 0;
-let charIndex = 0;
-let deleting = false;
+let typingStarted = false;
 
-function startTyping() {
+let typingTimer = null;
 
-  wordIndex = 0;
-  charIndex = 0;
-  deleting = false;
 
-  typeWriter();
+function setupTyping() {
+  // Nothing needed here.
 }
 
 
-function typeWriter() {
+function startTyping() {
 
-  const element =
-    document.getElementById(
-      "typingText"
-    );
-
-  if (!element) {
+  if (typingStarted) {
     return;
   }
 
-  const word =
-    words[wordIndex];
+  typingStarted = true;
+
+  let wordIndex = 0;
+
+  let characterIndex = 0;
+
+  let deleting = false;
 
 
-  if (!deleting) {
+  function type() {
 
-    element.textContent =
-      word.substring(
-        0,
-        charIndex + 1
+    const element =
+      document.getElementById(
+        "typingText"
       );
 
-    charIndex++;
 
-    if (charIndex >= word.length) {
-
-      deleting = true;
-
-      setTimeout(
-        typeWriter,
-        1300
-      );
-
+    if (!element) {
       return;
     }
 
-  } else {
 
-    element.textContent =
-      word.substring(
-        0,
-        charIndex - 1
-      );
+    const word =
+      typingWords[wordIndex];
 
-    charIndex--;
 
-    if (charIndex <= 0) {
+    if (!deleting) {
 
-      deleting = false;
+      characterIndex++;
 
-      wordIndex++;
+      element.textContent =
+        word.substring(
+          0,
+          characterIndex
+        );
 
-      if (wordIndex >= words.length) {
-        wordIndex = 0;
+
+      if (
+        characterIndex >=
+        word.length
+      ) {
+
+        deleting = true;
+
+        typingTimer =
+          setTimeout(
+            type,
+            1400
+          );
+
+        return;
       }
+
+
+      typingTimer =
+        setTimeout(
+          type,
+          80
+        );
+
+
+    } else {
+
+      characterIndex--;
+
+      element.textContent =
+        word.substring(
+          0,
+          characterIndex
+        );
+
+
+      if (characterIndex <= 0) {
+
+        deleting = false;
+
+        wordIndex++;
+
+        if (
+          wordIndex >=
+          typingWords.length
+        ) {
+          wordIndex = 0;
+        }
+
+      }
+
+
+      typingTimer =
+        setTimeout(
+          type,
+          45
+        );
     }
   }
 
 
-  setTimeout(
-    typeWriter,
-    deleting ? 45 : 85
-  );
+  type();
 }
 
 
@@ -145,27 +263,39 @@ function typeWriter() {
 // MEMORY LOADING
 // ========================================
 
-let loadingStarted = false;
+let memoryStarted = false;
 
-function startLoading() {
+let memoryTimer = null;
 
-  if (loadingStarted) {
+
+function setupMemory() {
+  // Starts when page 4 appears.
+}
+
+
+function startMemory() {
+
+  if (memoryStarted) {
     return;
   }
 
-  loadingStarted = true;
+  memoryStarted = true;
+
 
   const progress =
     document.getElementById(
       "progress"
     );
 
-  const text =
+  const loadingText =
     document.getElementById(
       "loadingText"
     );
 
-  let value = 0;
+
+  if (!progress || !loadingText) {
+    return;
+  }
 
 
   const messages = [
@@ -178,46 +308,53 @@ function startLoading() {
   ];
 
 
-  const interval =
+  let percentage = 0;
+
+
+  memoryTimer =
     setInterval(() => {
 
-      value++;
+      percentage += 1;
+
 
       progress.style.width =
-        value + "%";
+        `${percentage}%`;
 
 
-      if (value < 20) {
+      if (percentage < 20) {
 
-        text.textContent =
+        loadingText.textContent =
           messages[0];
 
-      } else if (value < 40) {
+      } else if (percentage < 40) {
 
-        text.textContent =
+        loadingText.textContent =
           messages[1];
 
-      } else if (value < 60) {
+      } else if (percentage < 60) {
 
-        text.textContent =
+        loadingText.textContent =
           messages[2];
 
-      } else if (value < 80) {
+      } else if (percentage < 80) {
 
-        text.textContent =
+        loadingText.textContent =
           messages[3];
 
-      } else if (value < 100) {
+      } else if (percentage < 100) {
 
-        text.textContent =
+        loadingText.textContent =
           messages[4];
 
       } else {
 
-        text.textContent =
+        loadingText.textContent =
           messages[5];
 
-        clearInterval(interval);
+
+        clearInterval(
+          memoryTimer
+        );
       }
 
     }, 35);
@@ -225,102 +362,294 @@ function startLoading() {
 
 
 // ========================================
-// MUSIC PLAYER
+// MUSIC
 // ========================================
 
-const bgMusic =
-  document.getElementById(
-    "bgMusic"
+let bgMusic = null;
+
+let musicButton = null;
+
+
+function setupMusic() {
+
+  bgMusic =
+    document.getElementById(
+      "bgMusic"
+    );
+
+  musicButton =
+    document.getElementById(
+      "musicBtn"
+    );
+
+
+  if (
+    !bgMusic ||
+    !musicButton
+  ) {
+    return;
+  }
+
+
+  musicButton.addEventListener(
+    "click",
+    toggleMusic
   );
 
-const musicBtn =
-  document.getElementById(
-    "musicBtn"
+
+  bgMusic.addEventListener(
+    "play",
+    updateMusicUI
   );
 
-let musicPlaying = false;
+
+  bgMusic.addEventListener(
+    "pause",
+    updateMusicUI
+  );
 
 
-function toggleMusic() {
+  bgMusic.addEventListener(
+    "ended",
+    updateMusicUI
+  );
+}
+
+
+async function toggleMusic() {
 
   if (!bgMusic) {
     return;
   }
 
 
-  if (!musicPlaying) {
+  try {
 
-    bgMusic.play()
-      .then(() => {
+    if (bgMusic.paused) {
 
-        musicPlaying = true;
+      await bgMusic.play();
 
-        updateMusicButton();
+    } else {
 
-      })
-      .catch(() => {
+      bgMusic.pause();
 
-        musicBtn.textContent =
-          "♫ Tap Again";
+    }
 
-      });
+  } catch (error) {
 
-  } else {
+    console.log(
+      "Music could not start:",
+      error
+    );
 
-    bgMusic.pause();
+    if (musicButton) {
 
-    musicPlaying = false;
+      musicButton.textContent =
+        "♫ Tap Again";
 
-    updateMusicButton();
+    }
   }
 }
 
 
-function updateMusicButton() {
+function updateMusicUI() {
 
-  if (musicPlaying) {
+  if (
+    !bgMusic ||
+    !musicButton
+  ) {
+    return;
+  }
 
-    musicBtn.innerHTML =
+
+  if (!bgMusic.paused) {
+
+    musicButton.textContent =
       "Ⅱ Pause Music";
 
-    musicBtn.classList.add(
+    musicButton.classList.add(
       "playing"
     );
 
   } else {
 
-    musicBtn.innerHTML =
+    musicButton.textContent =
       "♫ Play Music";
 
-    musicBtn.classList.remove(
+    musicButton.classList.remove(
       "playing"
     );
   }
 }
 
 
-bgMusic.addEventListener(
-  "play",
-  () => {
+// ========================================
+// FLOATING ELEMENTS
+// ========================================
 
-    musicPlaying = true;
+const floatingItems = [
+  "♡",
+  "♥",
+  "✦",
+  "✧",
+  "love",
+  "always",
+  "you",
+  "us",
+  "forever",
+  "∞",
+  "together",
+  "happy anniversary"
+];
 
-    updateMusicButton();
 
+function setupFloating() {
+
+  setInterval(
+    createFloating,
+    1100
+  );
+
+}
+
+
+function createFloating() {
+
+  const container =
+    document.getElementById(
+      "floating"
+    );
+
+
+  if (!container) {
+    return;
   }
-);
 
 
-bgMusic.addEventListener(
-  "pause",
-  () => {
+  const element =
+    document.createElement(
+      "div"
+    );
 
-    musicPlaying = false;
 
-    updateMusicButton();
+  element.className =
+    "float";
 
-  }
-);
+
+  const randomItem =
+    floatingItems[
+      Math.floor(
+        Math.random() *
+        floatingItems.length
+      )
+    ];
+
+
+  element.textContent =
+    randomItem;
+
+
+  element.style.left =
+    `${Math.random() * 100}%`;
+
+
+  element.style.fontSize =
+    `${Math.random() * 13 + 11}px`;
+
+
+  const duration =
+    Math.random() * 6 + 7;
+
+
+  element.style.animationDuration =
+    `${duration}s`;
+
+
+  container.appendChild(
+    element
+  );
+
+
+  setTimeout(() => {
+
+    if (element.parentNode) {
+      element.remove();
+    }
+
+  }, duration * 1000);
+}
+
+
+// ========================================
+// TAP HEARTS
+// ========================================
+
+function setupTapEffects() {
+
+  document.addEventListener(
+    "click",
+    event => {
+
+      // Don't create tap hearts
+      // when pressing buttons.
+
+      if (
+        event.target.closest(
+          "button"
+        )
+      ) {
+        return;
+      }
+
+
+      createTapHeart(
+        event.clientX,
+        event.clientY
+      );
+
+    }
+  );
+}
+
+
+function createTapHeart(x, y) {
+
+  const heart =
+    document.createElement(
+      "div"
+    );
+
+
+  heart.className =
+    "tap-heart";
+
+
+  heart.textContent =
+    Math.random() > .5
+      ? "♡"
+      : "♥";
+
+
+  heart.style.left =
+    `${x}px`;
+
+  heart.style.top =
+    `${y}px`;
+
+
+  document.body.appendChild(
+    heart
+  );
+
+
+  setTimeout(() => {
+
+    if (heart.parentNode) {
+      heart.remove();
+    }
+
+  }, 900);
+}
 
 
 // ========================================
@@ -328,6 +657,13 @@ bgMusic.addEventListener(
 // ========================================
 
 function finalReveal() {
+
+  if (changingPage) {
+    return;
+  }
+
+  changingPage = true;
+
 
   const current =
     document.getElementById(
@@ -338,6 +674,14 @@ function finalReveal() {
     document.getElementById(
       "final"
     );
+
+
+  if (!current || !final) {
+
+    changingPage = false;
+
+    return;
+  }
 
 
   current.classList.remove(
@@ -351,93 +695,12 @@ function finalReveal() {
       "active"
     );
 
+    changingPage = false;
+
     celebration();
 
-  }, 400);
+  }, 500);
 }
-
-
-// ========================================
-// FLOATING WORDS
-// ========================================
-
-const floatingWords = [
-  "love",
-  "always",
-  "you",
-  "us",
-  "♡",
-  "forever",
-  "memories",
-  "together",
-  "∞",
-  "my favorite",
-  "hehe",
-  "♡",
-  "always you",
-  "happy anniversary"
-];
-
-
-function createFloating() {
-
-  const container =
-    document.getElementById(
-      "floating"
-    );
-
-  const item =
-    document.createElement(
-      "div"
-    );
-
-  item.className =
-    "float";
-
-
-  item.textContent =
-    floatingWords[
-      Math.floor(
-        Math.random() *
-        floatingWords.length
-      )
-    ];
-
-
-  item.style.left =
-    Math.random() * 100 + "%";
-
-
-  item.style.fontSize =
-    (Math.random() * 14 + 11)
-    + "px";
-
-
-  const duration =
-    Math.random() * 7 + 7;
-
-
-  item.style.animationDuration =
-    duration + "s";
-
-
-  container.appendChild(
-    item
-  );
-
-
-  setTimeout(() => {
-
-    item.remove();
-
-  }, duration * 1000);
-}
-
-
-setInterval(
-  createFloating,
-  500
-);
 
 
 // ========================================
@@ -446,182 +709,89 @@ setInterval(
 
 function celebration() {
 
+  const container =
+    document.getElementById(
+      "floating"
+    );
+
+
+  if (!container) {
+    return;
+  }
+
+
+  const celebrationItems = [
+    "♥",
+    "♡",
+    "✦",
+    "✧",
+    "❤",
+    "love",
+    "forever"
+  ];
+
+
   for (
     let i = 0;
-    i < 50;
+    i < 35;
     i++
   ) {
 
     setTimeout(() => {
 
-      const container =
-        document.getElementById(
-          "floating"
-        );
-
-
-      const item =
+      const element =
         document.createElement(
           "div"
         );
 
 
-      item.className =
+      element.className =
         "float";
 
 
-      item.textContent =
-        [
-          "♥",
-          "♡",
-          "✦",
-          "✧",
-          "❤"
-        ][
+      element.textContent =
+        celebrationItems[
           Math.floor(
-            Math.random() * 5
+            Math.random() *
+            celebrationItems.length
           )
         ];
 
 
-      item.style.left =
-        Math.random() * 100 + "%";
+      element.style.left =
+        `${Math.random() * 100}%`;
 
 
-      item.style.fontSize =
-        (Math.random() * 25 + 15)
-        + "px";
+      element.style.fontSize =
+        `${Math.random() * 20 + 15}px`;
 
 
-      item.style.color =
-        "rgba(255,130,165,.8)";
+      element.style.color =
+        "rgba(255,130,165,.85)";
 
 
       const duration =
-        Math.random() * 4 + 4;
+        Math.random() * 4 + 5;
 
 
-      item.style.animationDuration =
-        duration + "s";
+      element.style.animationDuration =
+        `${duration}s`;
 
 
       container.appendChild(
-        item
+        element
       );
 
 
       setTimeout(() => {
 
-        item.remove();
+        if (element.parentNode) {
+          element.remove();
+        }
 
       }, duration * 1000);
 
 
-    }, i * 80);
+    }, i * 100);
   }
 }
-
-
-// ========================================
-// TAP HEART EFFECT
-// ========================================
-
-document.addEventListener(
-  "click",
-  (event) => {
-
-    if (
-      event.target.tagName ===
-      "BUTTON"
-    ) {
-      return;
-    }
-
-
-    const heart =
-      document.createElement(
-        "div"
-      );
-
-
-    heart.textContent =
-      "♡";
-
-
-    heart.style.position =
-      "fixed";
-
-    heart.style.left =
-      event.clientX + "px";
-
-    heart.style.top =
-      event.clientY + "px";
-
-    heart.style.pointerEvents =
-      "none";
-
-    heart.style.zIndex =
-      "100";
-
-    heart.style.color =
-      "#ff80a6";
-
-    heart.style.fontSize =
-      "25px";
-
-    heart.style.animation =
-      "tapHeart 1s ease forwards";
-
-
-    document.body.appendChild(
-      heart
-    );
-
-
-    setTimeout(() => {
-
-      heart.remove();
-
-    }, 1000);
-  }
-);
-
-
-// ========================================
-// TAP HEART CSS
-// ========================================
-
-const style =
-  document.createElement(
-    "style"
-  );
-
-
-style.textContent = `
-
-@keyframes tapHeart {
-
-  0% {
-    transform:
-      translate(-50%, -50%)
-      scale(.5);
-
-    opacity: 1;
-  }
-
-  100% {
-    transform:
-      translate(-50%, -100px)
-      scale(1.5);
-
-    opacity: 0;
-  }
-
-}
-
-`;
-
-
-document.head.appendChild(
-  style
-);
