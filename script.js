@@ -1,36 +1,31 @@
-const musicBtn = document.getElementById("musicBtn");
-const bgm = document.getElementById("bgm");
+// ========================================
+// ANNIVERSARY WEBSITE JAVASCRIPT
+// ========================================
 
-bgm.volume = 0.5;
 
-musicBtn.addEventListener("click", () => {
-  if (bgm.paused) {
-    bgm.play();
-    musicBtn.textContent = "⏸ Pause Music";
-  } else {
-    bgm.pause();
-    musicBtn.textContent = "🎵 Play Music";
-  }
-});
+// ========================================
+// PAGE NAVIGATION
+// ========================================
 
 let currentPage = 1;
 
 const totalPages = 5;
 
-
-// ============================
-// PAGE SYSTEM
-// ============================
-
 function nextPage() {
 
-  if (currentPage >= totalPages) return;
+  if (currentPage >= totalPages) {
+    return;
+  }
 
   const oldPage =
-    document.getElementById(`page${currentPage}`);
+    document.getElementById(
+      `page${currentPage}`
+    );
 
   const newPage =
-    document.getElementById(`page${currentPage + 1}`);
+    document.getElementById(
+      `page${currentPage + 1}`
+    );
 
   oldPage.classList.remove("active");
 
@@ -40,19 +35,23 @@ function nextPage() {
     newPage.classList.add("active");
   }, 250);
 
+
+  // Start typing when page 3 opens
   if (currentPage === 3) {
     startTyping();
   }
 
+
+  // Start memory loading
   if (currentPage === 4) {
     startLoading();
   }
 }
 
 
-// ============================
-// TYPING EFFECT
-// ============================
+// ========================================
+// TYPING ANIMATION
+// ========================================
 
 const words = [
   "It was you.",
@@ -74,27 +73,40 @@ function startTyping() {
   typeWriter();
 }
 
+
 function typeWriter() {
 
   const element =
-    document.getElementById("typingText");
+    document.getElementById(
+      "typingText"
+    );
 
-  if (!element) return;
+  if (!element) {
+    return;
+  }
 
-  const word = words[wordIndex];
+  const word =
+    words[wordIndex];
+
 
   if (!deleting) {
 
     element.textContent =
-      word.substring(0, charIndex + 1);
+      word.substring(
+        0,
+        charIndex + 1
+      );
 
     charIndex++;
 
-    if (charIndex === word.length) {
+    if (charIndex >= word.length) {
 
       deleting = true;
 
-      setTimeout(typeWriter, 1300);
+      setTimeout(
+        typeWriter,
+        1300
+      );
 
       return;
     }
@@ -102,11 +114,14 @@ function typeWriter() {
   } else {
 
     element.textContent =
-      word.substring(0, charIndex - 1);
+      word.substring(
+        0,
+        charIndex - 1
+      );
 
     charIndex--;
 
-    if (charIndex === 0) {
+    if (charIndex <= 0) {
 
       deleting = false;
 
@@ -118,6 +133,7 @@ function typeWriter() {
     }
   }
 
+
   setTimeout(
     typeWriter,
     deleting ? 45 : 85
@@ -125,19 +141,32 @@ function typeWriter() {
 }
 
 
-// ============================
+// ========================================
 // MEMORY LOADING
-// ============================
+// ========================================
+
+let loadingStarted = false;
 
 function startLoading() {
 
+  if (loadingStarted) {
+    return;
+  }
+
+  loadingStarted = true;
+
   const progress =
-    document.getElementById("progress");
+    document.getElementById(
+      "progress"
+    );
 
   const text =
-    document.getElementById("loadingText");
+    document.getElementById(
+      "loadingText"
+    );
 
   let value = 0;
+
 
   const messages = [
     "Collecting little moments...",
@@ -148,6 +177,7 @@ function startLoading() {
     "Memory complete ♡"
   ];
 
+
   const interval =
     setInterval(() => {
 
@@ -156,27 +186,33 @@ function startLoading() {
       progress.style.width =
         value + "%";
 
+
       if (value < 20) {
-        text.textContent = messages[0];
-      }
 
-      else if (value < 40) {
-        text.textContent = messages[1];
-      }
+        text.textContent =
+          messages[0];
 
-      else if (value < 60) {
-        text.textContent = messages[2];
-      }
+      } else if (value < 40) {
 
-      else if (value < 80) {
-        text.textContent = messages[3];
-      }
+        text.textContent =
+          messages[1];
 
-      else if (value < 100) {
-        text.textContent = messages[4];
-      }
+      } else if (value < 60) {
 
-      else {
+        text.textContent =
+          messages[2];
+
+      } else if (value < 80) {
+
+        text.textContent =
+          messages[3];
+
+      } else if (value < 100) {
+
+        text.textContent =
+          messages[4];
+
+      } else {
 
         text.textContent =
           messages[5];
@@ -188,23 +224,132 @@ function startLoading() {
 }
 
 
-// ============================
+// ========================================
+// MUSIC PLAYER
+// ========================================
+
+const bgMusic =
+  document.getElementById(
+    "bgMusic"
+  );
+
+const musicBtn =
+  document.getElementById(
+    "musicBtn"
+  );
+
+let musicPlaying = false;
+
+
+function toggleMusic() {
+
+  if (!bgMusic) {
+    return;
+  }
+
+
+  if (!musicPlaying) {
+
+    bgMusic.play()
+      .then(() => {
+
+        musicPlaying = true;
+
+        updateMusicButton();
+
+      })
+      .catch(() => {
+
+        musicBtn.textContent =
+          "♫ Tap Again";
+
+      });
+
+  } else {
+
+    bgMusic.pause();
+
+    musicPlaying = false;
+
+    updateMusicButton();
+  }
+}
+
+
+function updateMusicButton() {
+
+  if (musicPlaying) {
+
+    musicBtn.innerHTML =
+      "Ⅱ Pause Music";
+
+    musicBtn.classList.add(
+      "playing"
+    );
+
+  } else {
+
+    musicBtn.innerHTML =
+      "♫ Play Music";
+
+    musicBtn.classList.remove(
+      "playing"
+    );
+  }
+}
+
+
+bgMusic.addEventListener(
+  "play",
+  () => {
+
+    musicPlaying = true;
+
+    updateMusicButton();
+
+  }
+);
+
+
+bgMusic.addEventListener(
+  "pause",
+  () => {
+
+    musicPlaying = false;
+
+    updateMusicButton();
+
+  }
+);
+
+
+// ========================================
 // FINAL REVEAL
-// ============================
+// ========================================
 
 function finalReveal() {
 
   const current =
-    document.getElementById("page5");
+    document.getElementById(
+      "page5"
+    );
 
   const final =
-    document.getElementById("final");
+    document.getElementById(
+      "final"
+    );
 
-  current.classList.remove("active");
+
+  current.classList.remove(
+    "active"
+  );
+
 
   setTimeout(() => {
 
-    final.classList.add("active");
+    final.classList.add(
+      "active"
+    );
 
     celebration();
 
@@ -212,9 +357,9 @@ function finalReveal() {
 }
 
 
-// ============================
+// ========================================
 // FLOATING WORDS
-// ============================
+// ========================================
 
 const floatingWords = [
   "love",
@@ -229,18 +374,26 @@ const floatingWords = [
   "my favorite",
   "hehe",
   "♡",
-  "always you"
+  "always you",
+  "happy anniversary"
 ];
+
 
 function createFloating() {
 
   const container =
-    document.getElementById("floating");
+    document.getElementById(
+      "floating"
+    );
 
   const item =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
-  item.className = "float";
+  item.className =
+    "float";
+
 
   item.textContent =
     floatingWords[
@@ -250,129 +403,209 @@ function createFloating() {
       )
     ];
 
+
   item.style.left =
     Math.random() * 100 + "%";
 
+
   item.style.fontSize =
-    (Math.random() * 14 + 11) + "px";
+    (Math.random() * 14 + 11)
+    + "px";
+
 
   const duration =
     Math.random() * 7 + 7;
 
+
   item.style.animationDuration =
     duration + "s";
 
-  container.appendChild(item);
+
+  container.appendChild(
+    item
+  );
+
 
   setTimeout(() => {
+
     item.remove();
+
   }, duration * 1000);
 }
 
-setInterval(createFloating, 500);
+
+setInterval(
+  createFloating,
+  500
+);
 
 
-// ============================
+// ========================================
 // FINAL CELEBRATION
-// ============================
+// ========================================
 
 function celebration() {
 
-  for (let i = 0; i < 50; i++) {
+  for (
+    let i = 0;
+    i < 50;
+    i++
+  ) {
 
     setTimeout(() => {
 
       const container =
-        document.getElementById("floating");
+        document.getElementById(
+          "floating"
+        );
+
 
       const item =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
-      item.className = "float";
+
+      item.className =
+        "float";
+
 
       item.textContent =
-        ["♥", "♡", "✦", "✧", "❤"]
-        [Math.floor(Math.random() * 5)];
+        [
+          "♥",
+          "♡",
+          "✦",
+          "✧",
+          "❤"
+        ][
+          Math.floor(
+            Math.random() * 5
+          )
+        ];
+
 
       item.style.left =
         Math.random() * 100 + "%";
 
+
       item.style.fontSize =
-        (Math.random() * 25 + 15) + "px";
+        (Math.random() * 25 + 15)
+        + "px";
+
 
       item.style.color =
         "rgba(255,130,165,.8)";
 
+
       const duration =
         Math.random() * 4 + 4;
+
 
       item.style.animationDuration =
         duration + "s";
 
-      container.appendChild(item);
+
+      container.appendChild(
+        item
+      );
+
 
       setTimeout(() => {
+
         item.remove();
+
       }, duration * 1000);
+
 
     }, i * 80);
   }
 }
 
 
-// ============================
-// TAP ANYWHERE
-// ============================
+// ========================================
+// TAP HEART EFFECT
+// ========================================
 
-document.addEventListener("click", (event) => {
+document.addEventListener(
+  "click",
+  (event) => {
 
-  if (
-    event.target.tagName === "BUTTON"
-  ) return;
-
-  const active =
-    document.querySelector(".page.active");
-
-  if (!active) return;
-
-  // Small floating heart at tap position
-
-  const heart =
-    document.createElement("div");
-
-  heart.textContent = "♡";
-
-  heart.style.position = "fixed";
-  heart.style.left = event.clientX + "px";
-  heart.style.top = event.clientY + "px";
-
-  heart.style.pointerEvents = "none";
-  heart.style.zIndex = "100";
-
-  heart.style.color = "#ff80a6";
-  heart.style.fontSize = "25px";
-
-  heart.style.animation =
-    "tapHeart 1s ease forwards";
-
-  document.body.appendChild(heart);
-
-  setTimeout(() => {
-    heart.remove();
-  }, 1000);
-});
+    if (
+      event.target.tagName ===
+      "BUTTON"
+    ) {
+      return;
+    }
 
 
-// Add tap-heart animation dynamically
+    const heart =
+      document.createElement(
+        "div"
+      );
+
+
+    heart.textContent =
+      "♡";
+
+
+    heart.style.position =
+      "fixed";
+
+    heart.style.left =
+      event.clientX + "px";
+
+    heart.style.top =
+      event.clientY + "px";
+
+    heart.style.pointerEvents =
+      "none";
+
+    heart.style.zIndex =
+      "100";
+
+    heart.style.color =
+      "#ff80a6";
+
+    heart.style.fontSize =
+      "25px";
+
+    heart.style.animation =
+      "tapHeart 1s ease forwards";
+
+
+    document.body.appendChild(
+      heart
+    );
+
+
+    setTimeout(() => {
+
+      heart.remove();
+
+    }, 1000);
+  }
+);
+
+
+// ========================================
+// TAP HEART CSS
+// ========================================
 
 const style =
-  document.createElement("style");
+  document.createElement(
+    "style"
+  );
+
 
 style.textContent = `
+
 @keyframes tapHeart {
 
   0% {
-    transform: translate(-50%, -50%) scale(.5);
+    transform:
+      translate(-50%, -50%)
+      scale(.5);
+
     opacity: 1;
   }
 
@@ -380,79 +613,15 @@ style.textContent = `
     transform:
       translate(-50%, -100px)
       scale(1.5);
+
     opacity: 0;
   }
 
 }
+
 `;
 
-document.head.appendChild(style);
 
-// ============================
-// MUSIC PLAYER
-// ============================
-
-const bgMusic = document.getElementById("bgMusic");
-const musicBtn = document.getElementById("musicBtn");
-
-let musicPlaying = false;
-
-function toggleMusic() {
-
-  if (!musicPlaying) {
-
-    bgMusic.play()
-      .then(() => {
-
-        musicPlaying = true;
-
-        musicBtn.innerHTML =
-          "Ⅱ Pause Music";
-
-        musicBtn.classList.add("playing");
-
-      })
-      .catch(() => {
-
-        musicBtn.innerHTML =
-          "♫ Tap to Play";
-
-      });
-
-  } else {
-
-    bgMusic.pause();
-
-    musicPlaying = false;
-
-    musicBtn.innerHTML =
-      "♫ Play Music";
-
-    musicBtn.classList.remove("playing");
-  }
-}
-
-
-// Keep button synchronized
-bgMusic.addEventListener("play", () => {
-
-  musicPlaying = true;
-
-  musicBtn.innerHTML =
-    "Ⅱ Pause Music";
-
-  musicBtn.classList.add("playing");
-
-});
-
-
-bgMusic.addEventListener("pause", () => {
-
-  musicPlaying = false;
-
-  musicBtn.innerHTML =
-    "♫ Play Music";
-
-  musicBtn.classList.remove("playing");
-
-});
+document.head.appendChild(
+  style
+);
