@@ -9,12 +9,14 @@
 
 <body>
 
-  <main>
-  <button id="musicBtn">🎵 Play Music</button>
-
-<audio id="bgm" loop>
+<!-- MUSIC -->
+<audio id="bgMusic" loop>
   <source src="Music.mp3" type="audio/mpeg">
 </audio>
+
+<button id="musicBtn" class="music-btn" onclick="toggleMusic()">
+  ♫ Play Music
+</button>
   
   <div class="bg">
     <div class="blob blob1"></div>
