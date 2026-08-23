@@ -387,3 +387,72 @@ style.textContent = `
 `;
 
 document.head.appendChild(style);
+
+// ============================
+// MUSIC PLAYER
+// ============================
+
+const bgMusic = document.getElementById("bgMusic");
+const musicBtn = document.getElementById("musicBtn");
+
+let musicPlaying = false;
+
+function toggleMusic() {
+
+  if (!musicPlaying) {
+
+    bgMusic.play()
+      .then(() => {
+
+        musicPlaying = true;
+
+        musicBtn.innerHTML =
+          "Ⅱ Pause Music";
+
+        musicBtn.classList.add("playing");
+
+      })
+      .catch(() => {
+
+        musicBtn.innerHTML =
+          "♫ Tap to Play";
+
+      });
+
+  } else {
+
+    bgMusic.pause();
+
+    musicPlaying = false;
+
+    musicBtn.innerHTML =
+      "♫ Play Music";
+
+    musicBtn.classList.remove("playing");
+  }
+}
+
+
+// Keep button synchronized
+bgMusic.addEventListener("play", () => {
+
+  musicPlaying = true;
+
+  musicBtn.innerHTML =
+    "Ⅱ Pause Music";
+
+  musicBtn.classList.add("playing");
+
+});
+
+
+bgMusic.addEventListener("pause", () => {
+
+  musicPlaying = false;
+
+  musicBtn.innerHTML =
+    "♫ Play Music";
+
+  musicBtn.classList.remove("playing");
+
+});
