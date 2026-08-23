@@ -6,8 +6,8 @@
 
 :root {
   --pink: #ff4f81;
-  --light-pink: #ff8fab;
-  --purple: #9b5de5;
+  --pink-light: #ff91b2;
+  --purple: #a45cff;
   --white: #ffffff;
 }
 
@@ -15,11 +15,13 @@ html,
 body {
   width: 100%;
   height: 100%;
+
+  overflow: hidden;
+
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  overflow: hidden;
-
   font-family:
     Arial,
     Helvetica,
@@ -27,13 +29,13 @@ body {
 
   color: white;
 
-  background: #130914;
+  background: #120812;
 }
 
 
-/* =========================
+/* =================================
    BACKGROUND
-========================= */
+================================= */
 
 .background {
   position: fixed;
@@ -46,67 +48,69 @@ body {
   background:
     radial-gradient(
       circle at 15% 15%,
-      #5d1c43,
+      #641c45 0%,
       transparent 40%
     ),
+
     radial-gradient(
       circle at 85% 85%,
-      #35175b,
+      #36185b 0%,
       transparent 45%
     ),
-    #130914;
+
+    #120812;
 }
 
 .blob {
   position: absolute;
 
-  width: 350px;
-  height: 350px;
+  width: 320px;
+  height: 320px;
 
   border-radius: 50%;
 
   filter: blur(90px);
 
-  opacity: .45;
+  opacity: .42;
 
   animation:
-    moveBlob 12s infinite alternate ease-in-out;
+    blobMove 14s ease-in-out infinite alternate;
 }
 
-.blob-one {
-  background: #ff357d;
-
+.blob-1 {
   top: -120px;
   left: -100px;
+
+  background: #ff367d;
 }
 
-.blob-two {
-  background: #8b4dff;
-
+.blob-2 {
   right: -130px;
-  bottom: -120px;
+  bottom: -100px;
+
+  background: #914fff;
 
   animation-delay: -4s;
 }
 
-.blob-three {
-  background: #ff6b9d;
-
+.blob-3 {
+  top: 45%;
   left: 40%;
-  top: 40%;
 
-  animation-delay: -7s;
+  background: #ff6d9e;
+
+  animation-delay: -8s;
 }
 
-@keyframes moveBlob {
+@keyframes blobMove {
 
-  from {
+  0% {
     transform:
       translate(0, 0)
       scale(1);
   }
 
-  to {
+  100% {
     transform:
       translate(100px, -70px)
       scale(1.3);
@@ -114,19 +118,18 @@ body {
 }
 
 
-/* =========================
+/* =================================
    PAGES
-========================= */
+================================= */
 
 .page {
   position: fixed;
-
   inset: 0;
 
   display: flex;
 
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
   padding: 30px;
 
@@ -136,13 +139,13 @@ body {
   visibility: hidden;
 
   transform:
-    scale(.96)
-    translateY(20px);
+    translateY(30px)
+    scale(.96);
 
   transition:
-    opacity .7s ease,
-    transform .7s ease,
-    visibility .7s ease;
+    opacity .65s ease,
+    transform .65s ease,
+    visibility .65s ease;
 }
 
 .page.active {
@@ -151,8 +154,8 @@ body {
   visibility: visible;
 
   transform:
-    scale(1)
-    translateY(0);
+    translateY(0)
+    scale(1);
 }
 
 .content {
@@ -165,61 +168,63 @@ body {
 }
 
 
-/* =========================
+/* =================================
    TEXT
-========================= */
+================================= */
 
-.tiny {
+.eyebrow {
   margin-bottom: 22px;
 
   font-size: 11px;
+
+  font-weight: 600;
 
   letter-spacing: 4px;
 
   text-transform: uppercase;
 
-  opacity: .65;
+  opacity: .62;
 }
 
 h1 {
-  margin-bottom: 25px;
+  margin-bottom: 24px;
 
   font-size:
-    clamp(55px, 15vw, 110px);
+    clamp(58px, 16vw, 110px);
 
-  line-height: .88;
+  line-height: .87;
 
-  letter-spacing: -5px;
-}
-
-h1 span,
-h2 span {
-  color: #ff7da4;
-
-  text-shadow:
-    0 0 30px
-    rgba(255, 80, 130, .4);
+  letter-spacing: -6px;
 }
 
 h2 {
   margin-bottom: 30px;
 
   font-size:
-    clamp(40px, 10vw, 75px);
+    clamp(40px, 10vw, 76px);
 
-  line-height: .95;
+  line-height: .94;
 
-  letter-spacing: -3px;
+  letter-spacing: -4px;
 }
 
-.sub {
+h1 span,
+h2 span {
+  color: var(--pink-light);
+
+  text-shadow:
+    0 0 35px
+    rgba(255, 90, 140, .4);
+}
+
+.subtitle {
   margin-bottom: 30px;
 
   font-size: 16px;
 
   line-height: 1.6;
 
-  opacity: .7;
+  opacity: .68;
 }
 
 .quote {
@@ -232,36 +237,39 @@ h2 {
 
   line-height: 1.7;
 
-  opacity: .8;
+  opacity: .76;
 }
 
 
-/* =========================
-   HEART
-========================= */
+/* =================================
+   HEARTS
+================================= */
 
-.heart {
+.main-heart {
   margin-bottom: 20px;
 
-  font-size: 120px;
+  font-size: 115px;
 
-  color: #ff6b98;
+  color: var(--pink-light);
 
   text-shadow:
     0 0 50px
-    rgba(255, 70, 130, .6);
+    rgba(255, 70, 130, .55);
 
   animation:
     heartbeat 1.5s infinite;
 }
 
 .final-heart {
+  margin-bottom: 15px;
+
   font-size: 90px;
 
-  color: #ff6b98;
+  color: var(--pink-light);
 
   text-shadow:
-    0 0 60px #ff407f;
+    0 0 60px
+    rgba(255, 60, 130, .7);
 
   animation:
     heartbeat 1.3s infinite;
@@ -288,25 +296,33 @@ h2 {
 }
 
 
-/* =========================
+/* =================================
    BUTTONS
-========================= */
+================================= */
 
 button {
-  border: 0;
+  font-family: inherit;
 
   cursor: pointer;
 
-  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+
+  touch-action: manipulation;
 
   transition:
     transform .25s ease,
-    box-shadow .25s ease;
+    box-shadow .25s ease,
+    background .25s ease;
 }
 
-.main-btn,
-.choices button,
+button:active {
+  transform: scale(.94);
+}
+
+.primary-btn,
 .yes-btn {
+  border: 0;
+
   padding:
     16px 28px;
 
@@ -318,92 +334,95 @@ button {
 
   color: #ed4678;
 
-  background:
-    rgba(255, 255, 255, .95);
+  background: white;
 
   box-shadow:
-    0 10px 35px
-    rgba(0, 0, 0, .2);
+    0 12px 35px
+    rgba(0, 0, 0, .22);
 }
 
-button:hover {
+.primary-btn:hover,
+.yes-btn:hover {
   transform:
     translateY(-4px)
     scale(1.03);
 
   box-shadow:
-    0 15px 40px
+    0 18px 45px
     rgba(0, 0, 0, .3);
 }
 
-button:active {
-  transform: scale(.94);
+.primary-btn span {
+  margin-left: 8px;
 }
 
-.choices {
+.button-group {
   display: flex;
 
   justify-content: center;
 
   flex-wrap: wrap;
 
-  gap: 8px;
+  gap: 9px;
 }
 
-.choices button {
+.glass-btn {
+  border: 1px solid
+    rgba(255, 255, 255, .2);
+
+  padding:
+    15px 23px;
+
+  border-radius: 100px;
+
   color: white;
 
   background:
     rgba(255, 255, 255, .08);
 
-  border:
-    1px solid
-    rgba(255, 255, 255, .2);
-
   backdrop-filter:
-    blur(10px);
+    blur(15px);
+
+  -webkit-backdrop-filter:
+    blur(15px);
 }
 
 .yes-btn {
   color: white;
 
-  background: #ff4d81;
+  background: var(--pink);
 
   box-shadow:
     0 0 40px
-    rgba(255, 70, 130, .45);
+    rgba(255, 70, 130, .4);
 }
 
 
-/* =========================
-   MUSIC
-========================= */
+/* =================================
+   MUSIC BUTTON
+================================= */
 
 .music-btn {
   position: fixed;
 
-  top: 20px;
-  right: 20px;
+  top: 18px;
+  right: 18px;
 
   z-index: 999;
 
+  border:
+    1px solid
+    rgba(255, 255, 255, .18);
+
   padding:
-    11px 17px;
+    11px 16px;
 
   border-radius: 50px;
 
   color: white;
 
-  font-size: 12px;
-
-  letter-spacing: .5px;
-
   background:
     rgba(255, 255, 255, .08);
-
-  border:
-    1px solid
-    rgba(255, 255, 255, .2);
 
   backdrop-filter:
     blur(15px);
@@ -414,49 +433,53 @@ button:active {
   box-shadow:
     0 8px 25px
     rgba(0, 0, 0, .2);
+
+  font-size: 12px;
 }
 
 .music-btn.playing {
-  background:
-    rgba(255, 80, 130, .25);
-
   border-color:
-    rgba(255, 120, 155, .5);
+    rgba(255, 120, 160, .55);
+
+  background:
+    rgba(255, 70, 130, .23);
 
   box-shadow:
     0 0 25px
-    rgba(255, 80, 130, .35);
+    rgba(255, 70, 130, .3);
 }
 
 
-/* =========================
+/* =================================
    COUNTER
-========================= */
+================================= */
 
 .counter {
   position: absolute;
 
-  top: -70px;
+  top: -65px;
 
   left: 50%;
 
   transform:
     translateX(-50%);
 
-  font-size: 11px;
+  font-size: 10px;
 
   letter-spacing: 3px;
 
-  opacity: .4;
+  opacity: .35;
 }
 
 
-/* =========================
+/* =================================
    TYPING
-========================= */
+================================= */
 
-.typing {
+.typing-wrapper {
   min-height: 90px;
+
+  color: var(--pink-light);
 
   font-size:
     clamp(30px, 8vw, 55px);
@@ -465,7 +488,9 @@ button:active {
 
   line-height: 1;
 
-  color: #ff82a7;
+  text-shadow:
+    0 0 25px
+    rgba(255, 90, 140, .25);
 }
 
 .cursor {
@@ -481,11 +506,11 @@ button:active {
 }
 
 
-/* =========================
-   MEMORY
-========================= */
+/* =================================
+   MEMORY CARD
+================================= */
 
-.memory-box {
+.memory-card {
   width:
     min(400px, 90vw);
 
@@ -495,44 +520,45 @@ button:active {
   padding:
     45px 25px;
 
+  border:
+    1px solid
+    rgba(255, 255, 255, .12);
+
   border-radius: 30px;
 
   background:
     rgba(255, 255, 255, .06);
 
-  border:
-    1px solid
-    rgba(255, 255, 255, .12);
-
   backdrop-filter:
     blur(20px);
 
-  box-shadow:
-    inset 0 0 30px
-    rgba(255,255,255,.02),
+  -webkit-backdrop-filter:
+    blur(20px);
 
+  box-shadow:
     0 20px 60px
-    rgba(0,0,0,.2);
+    rgba(0, 0, 0, .2);
 }
 
-.memory-icon {
-  margin-bottom: 25px;
+.memory-symbol {
+  margin-bottom: 22px;
 
   font-size: 50px;
 
-  color: #ff77a0;
+  color: var(--pink-light);
 
   animation:
     spin 3s linear infinite;
 }
 
 @keyframes spin {
+
   to {
     transform: rotate(360deg);
   }
 }
 
-.loading {
+.progress-container {
   width: 100%;
 
   height: 5px;
@@ -545,7 +571,7 @@ button:active {
   border-radius: 10px;
 
   background:
-    rgba(255,255,255,.1);
+    rgba(255, 255, 255, .1);
 }
 
 #progress {
@@ -553,28 +579,27 @@ button:active {
 
   height: 100%;
 
+  border-radius: inherit;
+
   background:
     linear-gradient(
       90deg,
       #ff4f81,
       #ff9bb9
     );
-
-  transition:
-    width .1s linear;
 }
 
 
-/* =========================
+/* =================================
    SPARKLE
-========================= */
+================================= */
 
 .sparkle {
   margin-bottom: 20px;
 
   font-size: 60px;
 
-  color: #ff9bbb;
+  color: var(--pink-light);
 
   animation:
     sparkle 2s infinite;
@@ -584,41 +609,41 @@ button:active {
 
   0%,
   100% {
-    opacity: .4;
-
     transform:
       scale(.8)
       rotate(0);
+
+    opacity: .4;
   }
 
   50% {
-    opacity: 1;
-
     transform:
       scale(1.2)
       rotate(20deg);
+
+    opacity: 1;
   }
 }
 
 
-/* =========================
-   FINAL
-========================= */
+/* =================================
+   FINAL PAGE
+================================= */
 
 .final-page {
   background:
     radial-gradient(
       circle at center,
-      rgba(255,70,130,.15),
+      rgba(255, 70, 130, .15),
       transparent 55%
     );
 }
 
 .final-title {
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
-.line {
+.divider {
   width: 60px;
 
   height: 2px;
@@ -626,7 +651,7 @@ button:active {
   margin:
     30px auto;
 
-  background: #ff719a;
+  background: var(--pink-light);
 }
 
 .letter {
@@ -638,9 +663,9 @@ button:active {
 }
 
 .forever {
-  margin-top: 30px;
+  margin-top: 28px;
 
-  color: #ff8aaa;
+  color: var(--pink-light);
 
   font-size: 14px;
 
@@ -648,11 +673,11 @@ button:active {
 }
 
 .signature {
-  margin-top: 45px;
+  margin-top: 40px;
 
   font-size: 12px;
 
-  line-height: 1.6;
+  line-height: 1.7;
 
   opacity: .5;
 }
@@ -664,9 +689,9 @@ button:active {
 }
 
 
-/* =========================
-   FLOATING TEXT
-========================= */
+/* =================================
+   FLOATING ELEMENTS
+================================= */
 
 #floating {
   position: fixed;
@@ -688,7 +713,7 @@ button:active {
   white-space: nowrap;
 
   color:
-    rgba(255,255,255,.25);
+    rgba(255, 150, 180, .35);
 
   animation:
     floatUp linear forwards;
@@ -697,11 +722,11 @@ button:active {
 @keyframes floatUp {
 
   0% {
-    opacity: 0;
-
     transform:
       translateY(0)
       rotate(0);
+
+    opacity: 0;
   }
 
   10% {
@@ -709,23 +734,62 @@ button:active {
   }
 
   100% {
-    opacity: 0;
-
     transform:
       translateY(-110vh)
       rotate(20deg);
+
+    opacity: 0;
   }
 }
 
 
-/* =========================
+/* =================================
+   TAP EFFECT
+================================= */
+
+.tap-heart {
+  position: fixed;
+
+  z-index: 1000;
+
+  pointer-events: none;
+
+  color: var(--pink-light);
+
+  font-size: 24px;
+
+  animation:
+    tapHeart 900ms ease forwards;
+}
+
+@keyframes tapHeart {
+
+  0% {
+    transform:
+      translate(-50%, -50%)
+      scale(.5);
+
+    opacity: 1;
+  }
+
+  100% {
+    transform:
+      translate(-50%, -120px)
+      scale(1.5);
+
+    opacity: 0;
+  }
+}
+
+
+/* =================================
    TAP HINT
-========================= */
+================================= */
 
 .tap-hint {
   position: fixed;
 
-  bottom: 18px;
+  bottom: 16px;
 
   left: 50%;
 
@@ -734,7 +798,7 @@ button:active {
   transform:
     translateX(-50%);
 
-  font-size: 10px;
+  font-size: 9px;
 
   letter-spacing: 2px;
 
@@ -744,25 +808,26 @@ button:active {
 }
 
 
-/* =========================
+/* =================================
    MOBILE
-========================= */
+================================= */
 
 @media (max-width: 600px) {
 
   .page {
-    padding: 25px;
+    padding:
+      25px 20px;
   }
 
   h1 {
-    letter-spacing: -3px;
+    letter-spacing: -4px;
   }
 
   h2 {
     letter-spacing: -2px;
   }
 
-  .heart {
+  .main-heart {
     font-size: 90px;
   }
 
@@ -770,21 +835,26 @@ button:active {
     font-size: 15px;
   }
 
-  .choices {
+  .button-group {
     flex-direction: column;
   }
 
-  .choices button {
+  .glass-btn {
     width: 100%;
   }
 
   .music-btn {
-    top: 15px;
-    right: 15px;
+    top: 12px;
+    right: 12px;
 
     padding:
-      10px 14px;
+      9px 13px;
 
     font-size: 11px;
+  }
+
+  .memory-card {
+    padding:
+      35px 20px;
   }
 }
